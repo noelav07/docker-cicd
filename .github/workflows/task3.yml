@@ -24,7 +24,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: testing the image 
-              run: docker compose run -d 80:8090 utility
+              run: docker compose run -d -p 80:8090 utility
                
 
     # scan:
