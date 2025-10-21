@@ -28,16 +28,25 @@ jobs:
               run: docker compose down
               if: always()
 
-    # scan:
-    #     name: Run Trivy vulnerability scanner 
-    #     needs: [build, test]
-    #     steps:
-    #         - name: scaning the image
-    #           uses: aquasecurity/trivy-action@0.28.0
-    #           with:
-    #             image-ref: 'docker.io/noelav07/task3:${{ github.sha }}'
-    #             format: 'table'
-    #             exit-code: '1'
+scan:
+    name: Run Trivy vulnerability scanner 
+    needs: [build-and-test]
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+          
+        - name: Build image for scanning
+          run: docker compose build
+        
+        - name: Run Trivy vulnerability scanner
+          uses: aquasecurity/trivy-action@0.28.0
+          with:
+            image-ref: 'docker-cicd_utility:latest'  # Correct naming
+            format: 'table'
+            exit-code: '1'
+            severity: 'CRITICAL,HIGH'
+
 
         
     # push:
