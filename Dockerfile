@@ -1,5 +1,7 @@
 FROM nginx:mainline-alpine
 
+RUN apk update && apk upgrade pcre2
+
 RUN rm -rvf /var/www/html/*
 
 COPY Utility.conf /etc/nginx/conf.d/
@@ -11,4 +13,3 @@ COPY . .
 EXPOSE 8090
 
 CMD ["nginx", "-g", "daemon off;"]
-
