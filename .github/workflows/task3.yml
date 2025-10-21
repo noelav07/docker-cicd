@@ -16,7 +16,7 @@ jobs:
               uses: actions/checkout@v4
             
             - name: Building the image
-              run: docker-compose build
+              run: docker compose build
 
     test:
         name: Testing
@@ -24,7 +24,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: testing the image 
-              run: docker-compose run -d 80:8090 utility
+              run: docker compose run -d 80:8090 utility
                
 
     # scan:
