@@ -1,0 +1,48 @@
+# .github/workflows/task3.yml
+
+name: ECR CI/CD
+
+on:
+    push:
+        branches: ["main"]
+
+
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            
+            - name: Building the image
+              run: docker-compose build
+
+    test:
+        name: Testing
+        needs: [build]
+        runs-on: ubuntu-latest
+        steps:
+            - name: testing the image 
+              run: docker-compose run -d 80:8090 utility
+               
+
+    # scan:
+    #     name: Run Trivy vulnerability scanner 
+    #     needs: [build, test]
+    #     steps:
+    #         - name: scaning the image
+    #           uses: aquasecurity/trivy-action@0.28.0
+    #           with:
+    #             image-ref: 'docker.io/noelav07/task3:${{ github.sha }}'
+    #             format: 'table'
+    #             exit-code: '1'
+
+        
+    # push:
+    #     name: pushing
+    #     needs: [build, test, scan]
+    #     steps:
+    #         - name: Login to Amazon ECR
+    #           id: login-ecr
+    #           uses: aws-actions/amazon-ecr-login@v2
