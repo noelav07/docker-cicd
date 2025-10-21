@@ -10,7 +10,7 @@ This repository uses GitHub Actions to automate the following steps:
 
 ##  Workflow Overview
 
-The GitHub Actions workflow (`.github/workflows/ci.yml`) performs the following steps on every `push` to the `main` branch:
+The GitHub Actions workflow [`.github/workflows/ci.yml`)](https://github.com/noelav07/docker-cicd/blob/main/.github/workflows/task3.yml) performs the following steps on every `push` to the `main` branch:
 
 1. **Checkout code**
 2. **Set AWS credentials**
