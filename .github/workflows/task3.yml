@@ -8,24 +8,25 @@ on:
 
 
 jobs:
-    build:
-        name: Build
+    build-and-test:
+        name: Build and test
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
             
             - name: Building the image
-              run: docker compose build
+              run: docker compose up --build -d
 
-    test:
-        name: Testing
-        needs: [build]
-        runs-on: ubuntu-latest
-        steps:
-            - name: testing the image 
-              run: docker compose run -d -p 80:8090 utility
-               
+            - name: Health Check
+              run: |
+                echo "Waiting for service to be ready..."
+                sleep 15
+                curl -f http://localhost:80 || exit 1
+            
+            - name: Stop services
+              run: docker compose down
+              if: always()
 
     # scan:
     #     name: Run Trivy vulnerability scanner 
